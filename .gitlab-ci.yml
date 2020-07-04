@@ -1,0 +1,52 @@
+stages:
+    - package
+    - deployment
+
+# Create internal nuget package
+package:
+    stage: package
+    image: microsoft/dotnet:2.2-sdk
+    cache:
+        key: linux-build
+        paths:
+        - /root/.local/share/NuGet/Cache
+        - /root/.nuget/packages
+        - .nuget
+    only:
+        - master
+        - /^release_.*$/
+        - /^\d+_F_.*$/
+    tags:
+        - x86
+    artifacts:
+        when: always
+        paths:
+            - publish 
+    script:
+        # This assumes that Debug is the correct build to 
+        - for TestProject in *Tests/*Tests.csproj; do dotnet test -c ${TestConfiguration:-Debug} $TestProject; done
+        - for PackageProject in *Nuget/*Nuget.csproj; do dotnet pack -c ${PublishConfiguration:-Debug} --include-source --include-symbols  -p:SymbolPackageFormat=snupkg  --output ../publish $PackageProject; done
+
+  #Publish internal nuget package
+nugetInternal:
+    stage: deployment
+    image: microsoft/dotnet:2.2-sdk
+    cache:
+      key: linux-build
+      paths:
+        - /root/.local/share/NuGet/Cache
+        - /root/.nuget/packages
+        - .nuget
+    when: manual
+    allow_failure: true
+    only:
+        - master
+        - /^release_.*$/
+        - /^\d+_F_.*$/
+    tags:
+        - x86
+    script:
+        - cd publish
+        - for fileName in *.nupkg; do dotnet nuget push -s https://nuget.skywardapps.us/v3/index.json ${fileName}; done
+        - for fileName in *.snupkg; do dotnet nuget push -s https://nuget.skywardapps.us/v3/index.json ${fileName}; done
+

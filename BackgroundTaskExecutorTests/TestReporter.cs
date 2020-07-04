@@ -1,0 +1,28 @@
+using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Shouldly;
+using Skyward.Threading;
+using System.Linq;
+
+namespace BackgroundTaskExecutorTests
+{
+    [TestClass]
+    public class TestReporter
+    {
+        [TestMethod]
+        public void TestEmptyQueues()
+        {
+            var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
+            var executor = new BackgroundTaskExecutor(1, 1, loggerMock.Object);
+            var reporter = (IBackgroundTaskReporter)executor;
+
+            reporter.GetCurrentExecutingTasks().ShouldBeEmpty();
+            reporter.GetHistoricalTasks().ShouldBeEmpty();
+            reporter.GetQueuedTasks().Count().ShouldBe(2); // generic adhock, and periodic
+            reporter.GetQueuedTasks().Values.Any(v => v.Any()).ShouldBeFalse();
+            reporter.GetRegisteredPeriodicTasks().ShouldBeEmpty();
+        }
+    }
+}
