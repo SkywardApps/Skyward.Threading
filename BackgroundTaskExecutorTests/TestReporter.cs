@@ -1,5 +1,6 @@
 using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Shouldly;
@@ -16,7 +17,7 @@ namespace BackgroundTaskExecutorTests
         public void TestEmptyQueues()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new OptionsWrapper<BackgroundTaskExecutor.Config >(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }), loggerMock.Object);
             var reporter = (IBackgroundTaskReporter)executor;
 
             reporter.GetCurrentExecutingTasks().ShouldBeEmpty();

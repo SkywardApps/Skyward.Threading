@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Skyward.Threading.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -21,16 +22,21 @@ namespace Skyward.Threading
             public int ConcurrentUnnamedQueueTasks { get; set; }
         }
 
-        public BackgroundTaskExecutor(Config config, ILogger<BackgroundTaskExecutor> logger)
+        public BackgroundTaskExecutor(IOptions<Config> config, ILogger<BackgroundTaskExecutor> logger)
         {
-            _concurrentGeneralBackgroundThreads = config.ConcurrentGeneralBackgroundThreads;
-            _logger = logger;
+            if (config is null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            _concurrentGeneralBackgroundThreads = config.Value.ConcurrentGeneralBackgroundThreads;
             BackgroundQueues = new Dictionary<string, BackgroundQueue>
             {
                 // catchall queue for unnamed tasks, this will hopefully never get used
                 [UnnamedQueue] = new BackgroundQueue
                 {
-                    MaximumConcurrentExecutions = config.ConcurrentUnnamedQueueTasks
+                    MaximumConcurrentExecutions = config.Value.ConcurrentUnnamedQueueTasks
                 },
                 // periodic tasks
                 ["periodic"] = new BackgroundQueue

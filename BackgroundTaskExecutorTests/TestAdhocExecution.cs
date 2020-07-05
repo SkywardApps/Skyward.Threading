@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Shouldly;
@@ -18,7 +19,7 @@ namespace BackgroundTaskExecutorTests
         public async Task TestDualConcurrent()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 2, ConcurrentUnnamedQueueTasks = 2 }, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new OptionsWrapper<BackgroundTaskExecutor.Config>(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 2, ConcurrentUnnamedQueueTasks = 2 }), loggerMock.Object);
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), memberName: "Concurrent1");
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), memberName: "Concurrent2");
 
@@ -38,7 +39,7 @@ namespace BackgroundTaskExecutorTests
         public async Task TestDualConcurrentByQueue()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 2, ConcurrentUnnamedQueueTasks = 1 }, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new OptionsWrapper<BackgroundTaskExecutor.Config>(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 2, ConcurrentUnnamedQueueTasks = 1 }), loggerMock.Object);
             executor.AddQueue("Concurrent1", 1);
             executor.AddQueue("Concurrent2", 1);
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), queueName:"Concurrent1", memberName: "Concurrent1");
@@ -60,7 +61,7 @@ namespace BackgroundTaskExecutorTests
         public async Task TestDualConcurrentBySingleQueue()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 2, ConcurrentUnnamedQueueTasks = 1 }, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new OptionsWrapper<BackgroundTaskExecutor.Config>(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 2, ConcurrentUnnamedQueueTasks = 1 }), loggerMock.Object);
             executor.AddQueue("Concurrent1", 2);
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), queueName: "Concurrent1", memberName: "Concurrent1");
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), queueName: "Concurrent1", memberName: "Concurrent2");
@@ -81,7 +82,7 @@ namespace BackgroundTaskExecutorTests
         public async Task TestDualSequential()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 2, ConcurrentUnnamedQueueTasks = 1 }, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new OptionsWrapper<BackgroundTaskExecutor.Config>(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 2, ConcurrentUnnamedQueueTasks = 1 }), loggerMock.Object);
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), memberName: "Queue1");
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), memberName: "Queue2");
 
@@ -108,7 +109,7 @@ namespace BackgroundTaskExecutorTests
         public async Task TestDualSequentialByQueue()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new OptionsWrapper<BackgroundTaskExecutor.Config>(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }), loggerMock.Object);
             executor.AddQueue("Queue1", 1);
             executor.AddQueue("Queue2", 1);
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), queueName: "Queue1", memberName: "Queue1");
@@ -137,7 +138,7 @@ namespace BackgroundTaskExecutorTests
         public async Task TestAutomaticNameNoPriority()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new OptionsWrapper<BackgroundTaskExecutor.Config>(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }), loggerMock.Object);
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)));
 
             executor.StartExecuteBackgroundTasks();
@@ -154,7 +155,7 @@ namespace BackgroundTaskExecutorTests
         public async Task TestAutomaticNameWithPriority()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new OptionsWrapper<BackgroundTaskExecutor.Config>(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }), loggerMock.Object);
             executor.AddAction(async () => await Task.Delay(TimeSpan.FromSeconds(1)), false);
 
             executor.StartExecuteBackgroundTasks();
