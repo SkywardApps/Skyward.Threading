@@ -16,7 +16,7 @@ namespace BackgroundTaskExecutorTests
         public void TestEmptyQueues()
         {
             var loggerMock = new Mock<ILogger<BackgroundTaskExecutor>>();
-            var executor = new BackgroundTaskExecutor(1, 1, loggerMock.Object);
+            var executor = new BackgroundTaskExecutor(new BackgroundTaskExecutor.Config { ConcurrentGeneralBackgroundThreads = 1, ConcurrentUnnamedQueueTasks = 1 }, loggerMock.Object);
             var reporter = (IBackgroundTaskReporter)executor;
 
             reporter.GetCurrentExecutingTasks().ShouldBeEmpty();

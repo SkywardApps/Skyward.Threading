@@ -15,16 +15,22 @@ namespace Skyward.Threading
     /// </summary>
     public class BackgroundTaskExecutor : IBackgroundTaskExecutor, IBackgroundTaskReporter
     {
-        public BackgroundTaskExecutor(int concurrentGeneralBackgroundThreads, int concurrentUnnamedQueueTasks, ILogger<BackgroundTaskExecutor> logger)
+        public class Config
         {
-            _concurrentGeneralBackgroundThreads = concurrentGeneralBackgroundThreads;
+            public int ConcurrentGeneralBackgroundThreads { get; set; }
+            public int ConcurrentUnnamedQueueTasks { get; set; }
+        }
+
+        public BackgroundTaskExecutor(Config config, ILogger<BackgroundTaskExecutor> logger)
+        {
+            _concurrentGeneralBackgroundThreads = config.ConcurrentGeneralBackgroundThreads;
             _logger = logger;
             BackgroundQueues = new Dictionary<string, BackgroundQueue>
             {
                 // catchall queue for unnamed tasks, this will hopefully never get used
                 [UnnamedQueue] = new BackgroundQueue
                 {
-                    MaximumConcurrentExecutions = concurrentUnnamedQueueTasks
+                    MaximumConcurrentExecutions = config.ConcurrentUnnamedQueueTasks
                 },
                 // periodic tasks
                 ["periodic"] = new BackgroundQueue
