@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Shouldly;
 using Skyward.Threading;
+using Skyward.Threading.Abstractions;
 using System.Linq;
 
 namespace BackgroundTaskExecutorTests

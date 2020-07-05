@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Skyward.Threading
+namespace Skyward.Threading.Abstractions
 {
     public class PeriodicExecution : IPeriodicExecution
     {

@@ -1,4 +1,4 @@
-﻿namespace Skyward.Threading
+﻿namespace Skyward.Threading.Abstractions
 {
     public class BackgroundQueueConfig
     {

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Skyward.Threading.Abstractions</RootNamespace>
+    <AssemblyName>BackgroundTaskExecutorAbstractions</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Skyward.Threading.BackgroundTaskExecutorAbstractions</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Skyward App Company, LLC</Authors>
+    <Company>Skyward App Company, LLC</Company>
+  </PropertyGroup>
+
+</Project>

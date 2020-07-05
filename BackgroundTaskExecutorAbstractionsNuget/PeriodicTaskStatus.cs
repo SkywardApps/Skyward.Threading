@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skyward.Threading
+namespace Skyward.Threading.Abstractions
 {
     public struct PeriodicTaskStatus
     {

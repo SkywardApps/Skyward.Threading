@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Skyward.Threading
+namespace Skyward.Threading.Abstractions
 {
     public interface IBackgroundTaskReporter
     {

@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BackgroundTaskExecutorAbstractionsNuget\BackgroundTaskExecutorAbstractionsNuget.csproj" />
     <ProjectReference Include="..\BackgroundTaskExecutorNuget\BackgroundTaskExecutorNuget.csproj" />
     <ProjectReference Include="..\BackgroundTaskExecutor\BackgroundTaskExecutorNuget.csproj" />
   </ItemGroup>
