@@ -15,10 +15,7 @@ builder.Services.Configure<BackgroundTaskExecutor.Config>(opt => {
     opt.ConcurrentGeneralBackgroundThreads = 2;
 });
 
-builder.Services.AddSingleton<BackgroundTaskExecutor>();
-builder.Services.AddSingleton<IBackgroundTaskExecutor>((s) => s.GetRequiredService<BackgroundTaskExecutor>());
-builder.Services.AddSingleton<IBackgroundTaskReporter>((s) => s.GetRequiredService<BackgroundTaskExecutor>());
-builder.Services.AddHostedService<PeriodicJobExecutionService>();
+builder.Services.AddBackgroundExecutor();
 builder.Services.AddSingleton(new BackgroundQueueConfig
 {
     Name = "Test",

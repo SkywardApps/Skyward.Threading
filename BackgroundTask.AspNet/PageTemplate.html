@@ -38,7 +38,7 @@
     </style>
 </head>
 <body>
-    <h1>Currently Executing Tasks</h1>
+    <h1 id="currentTitle">Currently Executing Tasks</h1>
     <div id="currentTasks"></div>
 
     <h1>Registered Periodic Tasks</h1>
@@ -53,12 +53,85 @@
     <div id="loader">
         <h2>Please wait...</h2>
     </div>
-    <!--
-        Current:    string[]
-        Queued:     { [queue:string] : string[] }
-        Periodic:   { Name : string, LastExecution: string?, ScheduledExecution: string? }[]
-        -->
+
     <script>
+
+        function formatTimestamp(datetimeStr) {
+            const datetime = datetimeStr ? new Date(datetimeStr) : undefined;
+            return datetime ? datetime.toLocaleTimeString() + ' ' + datetime.toLocaleDateString() : undefined;
+        }
+
+        // Current: string[]
+        function setCurrentData(json) {
+            document.getElementById('currentTitle').insertAdjacentHTML('beforeend', ' (Max ' + json.Config.ConcurrentGeneralBackgroundThreads + ' concurrent)');
+            const currentTasksContainer = document.getElementById('currentTasks');
+            if (json.Current.length == 0) {
+                currentTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
+            }
+            else {
+                for (const entry of json.Current) {
+                    currentTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entry + '</div>');
+                }
+            }
+        }
+
+        // Queued:     { [queue:string] : string[] }
+        function setQueuedData(json)
+        {
+            const queuedTasksContainer = document.getElementById('queuedTasks');
+            for (const queueName in json.Queued) {
+                queuedTasksContainer.insertAdjacentHTML('beforeend', '<h2>' + (queueName || '[Default]') + ' (Max ' + json.Config.Queues.find(q => q.Name === queueName).MaximumConcurrentExecutions + ' concurrent)</h2>');
+                const queue = json.Queued[queueName];
+                if (queue.length == 0) {
+                    queuedTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
+                }
+                else {
+                    for (const entry of queue) {
+                        queuedTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entry + '</div>');
+                    }
+                }
+            }
+        }
+
+        // Periodic: { Name: string, LastExecution: string ?, ScheduledExecution: string ? } []
+        function setPeriodicData(json) {
+            const periodicTasksContainer = document.getElementById('periodicTasks');
+            if (json.Periodic.length == 0) {
+                periodicTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
+            }
+            else {
+                for (const entry of json.Periodic) {
+                    const scheduled = formatTimestamp(entry.ScheduledExecution);
+                    let entryText = entry.Name + ' @ ' + scheduled;
+                    const last = formatTimestamp(entry.LastExecution);
+                    if (!!last) {
+                        entryText += ' ( Last execution @ ' + last + ' )';
+                    }
+
+                    periodicTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entryText + '</div>');
+                }
+            }
+        }
+
+        // History: { Name: string, Started : string, Completed : string, Duration: ?} [],
+        function setHistoricData(json) {
+            const historicTasksContainer = document.getElementById('historicTasks');
+            if (json.History.length == 0) {
+                historicTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
+            }
+            else {
+                for (const entry of json.History) {
+                    const lastRan = formatTimestamp(entry.Started);
+                    const duration = entry.Duration;
+                    historicTasksContainer.insertAdjacentHTML('beforeend', '<div>' +
+                        entry.Name + (lastRan
+                            ? ' ran @ ' + lastRan + ' and took ' + duration
+                            : ' <never> '
+                        ) + '</div>');
+                }
+            }
+        }
+
         const loadData = async () => {
             try {
                 const currentUrl = window.location.toString();
@@ -66,63 +139,10 @@
                 const response = await fetch(dataUrl);
                 const json = await response.json();
 
-                const currentTasksContainer = document.getElementById('currentTasks');
-                if (json.Current.length == 0) {
-                    currentTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
-                }
-                else {
-                    for (const entry of json.Current) {
-                        currentTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entry + '</div>');
-                    }
-                }
-
-                const queuedTasksContainer = document.getElementById('queuedTasks');
-                for (const queueName in json.Queued) {
-                    queuedTasksContainer.insertAdjacentHTML('beforeend', '<h2>' + (queueName || '[Default]') + '</h2>');
-                    const queue = json.Queued[queueName];
-                    if (queue.length == 0) {
-                        queuedTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
-                    }
-                    else {
-                        for (const entry of queue) {
-                            queuedTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entry + '</div>');
-                        }
-                    }
-                }
-
-                const periodicTasksContainer = document.getElementById('periodicTasks');
-                if (json.Periodic.length == 0) {
-                    periodicTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
-                }
-                else {
-                    for (const entry of json.Periodic) {
-                        const scheduled = new Date(entry.ScheduledExecution);
-                        let entryText = entry.Name + ' @ ' + scheduled.toLocaleTimeString() + ' ' + scheduled.toLocaleDateString();
-                        if (!!entry.LastExecution) {
-                            const last = new Date(entry.LastExecution);
-                            entryText += ' ( Last execution @ ' + last.toLocaleTimeString() + ' ' + last.toLocaleDateString() + ' )';
-                        }
-
-                        periodicTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entryText + '</div>');
-                    }
-                }
-
-                // History: { Name: string, Started : string, Completed : string, Duration: ?} [],
-                const historicTasksContainer = document.getElementById('historicTasks');
-                if (json.History.length == 0) {
-                    historicTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
-                }
-                else {
-                    for (const entry of json.History) {
-                        const lastRan = entry.Started ? new Date(entry.Started) : undefined;
-                        const duration = entry.Duration;
-                        historicTasksContainer.insertAdjacentHTML('beforeend', '<div>' +
-                            entry.Name + (lastRan
-                                ? ' ran @ ' + lastRan.toLocaleTimeString() + ' ' + lastRan.toLocaleDateString() + ' and took ' + duration
-                                : ' <never> '
-                            ) + '</div>');
-                    }
-                }
+                setCurrentData(json);
+                setQueuedData(json);
+                setPeriodicData(json);
+                setHistoricData(json);
 
                 document.getElementById('loader').style.display = 'none';
             }
