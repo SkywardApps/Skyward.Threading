@@ -11,6 +11,8 @@
     <Company>Skyward App Company, LLC</Company>
     <PackageTags>threading background queue</PackageTags>
     <PackageReleaseNotes>Migration executor configuration to a config object</PackageReleaseNotes>
+    <Title>Skyward's Background Task and Periodic Executor</Title>
+    <Copyright>Skyward App Company, LLC</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

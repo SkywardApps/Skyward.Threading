@@ -3,6 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Skyward.Threading.BackgroundTaskExecutor.AspNet</PackageId>
+    <Title>Skyward's AspNet Extentions for the Background Task Executor</Title>
+    <Version>1.2.0</Version>
+    <Authors>Skyward App Company, LLC</Authors>
+    <Company>Skyward App Company, LLC</Company>
+    <Copyright>Skyward App Company, LLC</Copyright>
+    <PackageTags>threading background queue</PackageTags>
+    <PackageReleaseNotes>Initial release with reporter endpoint</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
