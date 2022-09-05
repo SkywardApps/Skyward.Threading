@@ -18,8 +18,8 @@ namespace Skyward.Threading
     {
         public class Config
         {
-            public int ConcurrentGeneralBackgroundThreads { get; set; }
-            public int ConcurrentUnnamedQueueTasks { get; set; }
+            public int ConcurrentGeneralBackgroundThreads { get; set; } = 1;
+            public int ConcurrentUnnamedQueueTasks { get; set; } = 1;
         }
 
         public BackgroundTaskExecutor(IOptions<Config> config, ILogger<BackgroundTaskExecutor> logger)

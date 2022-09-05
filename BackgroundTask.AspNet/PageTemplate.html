@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Background Task Executor Report</title>
+    <style>
+        html {
+            width: 100%;
+            height: 100%
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+        
+        h1 {
+        }
+
+        h2 {
+        }
+
+        h3 {
+        }
+
+        #loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #00000066;
+        }
+    </style>
+</head>
+<body>
+    <h1>Currently Executing Tasks</h1>
+    <div id="currentTasks"></div>
+
+    <h1>Registered Periodic Tasks</h1>
+    <div id="periodicTasks"></div>
+
+    <h1>Queued Tasks</h1>
+    <div id="queuedTasks"></div>
+
+    <h1>Execution History</h1>
+    <div id="historicTasks"></div>
+
+    <div id="loader">
+        <h2>Please wait...</h2>
+    </div>
+    <!--
+        Current:    string[]
+        Queued:     { [queue:string] : string[] }
+        Periodic:   { Name : string, LastExecution: string?, ScheduledExecution: string? }[]
+        -->
+    <script>
+        const loadData = async () => {
+            try {
+                const currentUrl = window.location.toString();
+                const dataUrl = currentUrl + '?data';
+                const response = await fetch(dataUrl);
+                const json = await response.json();
+
+                const currentTasksContainer = document.getElementById('currentTasks');
+                if (json.Current.length == 0) {
+                    currentTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
+                }
+                else {
+                    for (const entry of json.Current) {
+                        currentTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entry + '</div>');
+                    }
+                }
+
+                const queuedTasksContainer = document.getElementById('queuedTasks');
+                for (const queueName in json.Queued) {
+                    queuedTasksContainer.insertAdjacentHTML('beforeend', '<h2>' + (queueName || '[Default]') + '</h2>');
+                    const queue = json.Queued[queueName];
+                    if (queue.length == 0) {
+                        queuedTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
+                    }
+                    else {
+                        for (const entry of queue) {
+                            queuedTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entry + '</div>');
+                        }
+                    }
+                }
+
+                const periodicTasksContainer = document.getElementById('periodicTasks');
+                if (json.Periodic.length == 0) {
+                    periodicTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
+                }
+                else {
+                    for (const entry of json.Periodic) {
+                        const scheduled = new Date(entry.ScheduledExecution);
+                        let entryText = entry.Name + ' @ ' + scheduled.toLocaleTimeString() + ' ' + scheduled.toLocaleDateString();
+                        if (!!entry.LastExecution) {
+                            const last = new Date(entry.LastExecution);
+                            entryText += ' ( Last execution @ ' + last.toLocaleTimeString() + ' ' + last.toLocaleDateString() + ' )';
+                        }
+
+                        periodicTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entryText + '</div>');
+                    }
+                }
+
+                // History: { Name: string, Started : string, Completed : string, Duration: ?} [],
+                const historicTasksContainer = document.getElementById('historicTasks');
+                if (json.History.length == 0) {
+                    historicTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
+                }
+                else {
+                    for (const entry of json.History) {
+                        const lastRan = entry.Started ? new Date(entry.Started) : undefined;
+                        const duration = entry.Duration;
+                        historicTasksContainer.insertAdjacentHTML('beforeend', '<div>' +
+                            entry.Name + (lastRan
+                                ? ' ran @ ' + lastRan.toLocaleTimeString() + ' ' + lastRan.toLocaleDateString() + ' and took ' + duration
+                                : ' <never> '
+                            ) + '</div>');
+                    }
+                }
+
+                document.getElementById('loader').style.display = 'none';
+            }
+            catch (err) {
+                document.getElementById('loader').insertAdjacentHTML('beforeend', 'Error: ' + err.toString());
+            }
+        };
+        loadData();
+    </script>
+</body>
+</html>
