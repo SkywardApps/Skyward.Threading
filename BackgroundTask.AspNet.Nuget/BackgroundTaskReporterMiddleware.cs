@@ -20,7 +20,7 @@ namespace BackgroundTask.AspNet
         }
 
         static string PageTemplate { get; } = (new System.IO.StreamReader(
-            System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("BackgroundTask.AspNet.PageTemplate.html")
+            System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("BackgroundTask.AspNet.Nuget.PageTemplate.html")
             )).ReadToEnd();
 
         public async Task InvokeAsync(HttpContext context)

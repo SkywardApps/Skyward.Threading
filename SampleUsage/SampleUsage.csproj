@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BackgroundTask.AspNet\BackgroundTask.AspNet.csproj" />
+    <ProjectReference Include="..\BackgroundTask.AspNet.Nuget\BackgroundTask.AspNet.Nuget.csproj" />
     <ProjectReference Include="..\BackgroundTaskExecutorAbstractionsNuget\BackgroundTaskExecutorAbstractionsNuget.csproj" />
     <ProjectReference Include="..\BackgroundTaskExecutorNuget\BackgroundTaskExecutorNuget.csproj" />
   </ItemGroup>
