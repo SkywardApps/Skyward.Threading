@@ -66,7 +66,7 @@ For example, if you can configured:
  * Maximum concurrent execution to be 8 slots
  * Queue 1 is limited to 4 slots
  * Queue 2 is limited to 4 slots
- # Queue 3 is limited to 4 slots
+ * Queue 3 is limited to 4 slots
 
 In this case, any individual queue will only ever take at most 4 concurrent slots for the jobs in its queue.  If all queues have waiting items, however,
 there will still never be more than 8 jobs executing at the same time.   In this way, even if Queue 1 has 100 jobs waiting, if you add an item to Queue 2 or 3
