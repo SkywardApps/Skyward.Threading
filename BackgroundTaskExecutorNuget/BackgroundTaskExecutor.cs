@@ -18,7 +18,14 @@ namespace Skyward.Threading
     {
         public class Config
         {
+            /// <summary>
+            /// How many items across all queues can be run in parallel in total.
+            /// </summary>
             public int ConcurrentGeneralBackgroundThreads { get; set; } = 1;
+
+            /// <summary>
+            /// How many items that aren't added to a specific queue to run in parallel.
+            /// </summary>
             public int ConcurrentUnnamedQueueTasks { get; set; } = 1;
         }
 
