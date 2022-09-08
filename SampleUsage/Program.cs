@@ -60,6 +60,7 @@ app.MapGet("/weatherforecast", () =>
 
 
 app.MapBackgroundReporterEndpoint("/tasks/report");
+// Add an endpoint for testing purposes that will launch a new background task
 app.MapGet("/tasks/spawn", (IBackgroundTaskExecutor executor) => {
     executor.AddAction(async () => {
         await Task.Delay(5000);
