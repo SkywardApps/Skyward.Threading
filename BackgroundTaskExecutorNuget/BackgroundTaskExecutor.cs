@@ -12,7 +12,7 @@ namespace Skyward.Threading
 {
     /// <summary>
     /// Provide a rudimentary background queueing system for asynchronous jobs.
-    /// Ideally with would be handed off to a rabbitmq cluster or something, but for now we just execute it locally.
+    /// Ideally this would be handed off to a rabbitmq cluster or something, but for now we just execute it locally.
     /// </summary>
     public class BackgroundTaskExecutor : IBackgroundTaskExecutor, IBackgroundTaskReporter
     {
