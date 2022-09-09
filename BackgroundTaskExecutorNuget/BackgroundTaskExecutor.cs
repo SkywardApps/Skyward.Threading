@@ -12,14 +12,21 @@ namespace Skyward.Threading
 {
     /// <summary>
     /// Provide a rudimentary background queueing system for asynchronous jobs.
-    /// Ideally with would be handed off to a rabbitmq cluster or something, but for now we just execute it locally.
+    /// Ideally this would be handed off to a rabbitmq cluster or something, but for now we just execute it locally.
     /// </summary>
     public class BackgroundTaskExecutor : IBackgroundTaskExecutor, IBackgroundTaskReporter
     {
         public class Config
         {
-            public int ConcurrentGeneralBackgroundThreads { get; set; }
-            public int ConcurrentUnnamedQueueTasks { get; set; }
+            /// <summary>
+            /// How many items across all queues can be run in parallel in total.
+            /// </summary>
+            public int ConcurrentGeneralBackgroundThreads { get; set; } = 1;
+
+            /// <summary>
+            /// How many items that aren't added to a specific queue to run in parallel.
+            /// </summary>
+            public int ConcurrentUnnamedQueueTasks { get; set; } = 1;
         }
 
         public BackgroundTaskExecutor(IOptions<Config> config, ILogger<BackgroundTaskExecutor> logger)
@@ -130,7 +137,7 @@ namespace Skyward.Threading
 
             _genericExecutionThread.Join();
 
-            foreach(var thread in _concurrentExecutionThreads)
+            foreach (var thread in _concurrentExecutionThreads)
             {
                 thread.Join();
             }
@@ -327,7 +334,7 @@ namespace Skyward.Threading
             // Loop forever
             while (true)
             {
-                if(_cancellationToken.HasValue && _cancellationToken.Value.IsCancellationRequested)
+                if (_cancellationToken.HasValue && _cancellationToken.Value.IsCancellationRequested)
                 {
                     return;
                 }
@@ -524,7 +531,7 @@ namespace Skyward.Threading
         /// <param name="memberName">The name of the task being added.</param>
         public void AddAction(Func<Task> item, bool queueIfUnique, string queueName = null, bool priority = false, [CallerMemberName] string memberName = UnnamedTask)
         {
-            if(queueName == null)
+            if (queueName == null)
             {
                 queueName = UnnamedQueue;
             }
@@ -590,5 +597,15 @@ namespace Skyward.Threading
             }
             NewTaskEvent.Set();
         }
+
+        public CurrentConfiguration GetCurrentConfiguration() => new CurrentConfiguration(
+            _concurrentGeneralBackgroundThreads,
+            BackgroundQueues.Select(kv => new BackgroundQueueConfig
+            {
+                Name = kv.Key,
+                MaximumConcurrentExecutions = kv.Value.MaximumConcurrentExecutions
+            })
+        ); 
     }
+
 }

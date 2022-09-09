@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30225.117
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundTaskExecutorNuget", "BackgroundTaskExecutorNuget\BackgroundTaskExecutorNuget.csproj", "{5891F6EA-43DE-45D4-A321-191D8EA1C4A2}"
 EndProject
@@ -9,11 +9,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{57D43E14-80FD-4A
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		.gitlab-ci.yml = .gitlab-ci.yml
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		ISSUE_TEMPLATE.md = ISSUE_TEMPLATE.md
+		PULL_REQUEST_TEMPLATE.md = PULL_REQUEST_TEMPLATE.md
+		Readme.md = Readme.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundTaskExecutorTests", "BackgroundTaskExecutorTests\BackgroundTaskExecutorTests.csproj", "{4BC08760-B0AF-455B-B8CD-4413AAEA2DC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundTaskExecutorAbstractionsNuget", "BackgroundTaskExecutorAbstractionsNuget\BackgroundTaskExecutorAbstractionsNuget.csproj", "{63947375-BB7D-4A1A-A171-4866DA022537}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundTaskExecutorAbstractionsNuget", "BackgroundTaskExecutorAbstractionsNuget\BackgroundTaskExecutorAbstractionsNuget.csproj", "{63947375-BB7D-4A1A-A171-4866DA022537}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleUsage", "SampleUsage\SampleUsage.csproj", "{44CBB9FD-C61B-409A-9E62-6A3FEEF258F3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundTask.AspNet.Nuget", "BackgroundTask.AspNet.Nuget\BackgroundTask.AspNet.Nuget.csproj", "{D5ACCA47-1D4E-42AB-81DD-65317AB8B410}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +42,14 @@ Global
 		{63947375-BB7D-4A1A-A171-4866DA022537}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63947375-BB7D-4A1A-A171-4866DA022537}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63947375-BB7D-4A1A-A171-4866DA022537}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44CBB9FD-C61B-409A-9E62-6A3FEEF258F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44CBB9FD-C61B-409A-9E62-6A3FEEF258F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44CBB9FD-C61B-409A-9E62-6A3FEEF258F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44CBB9FD-C61B-409A-9E62-6A3FEEF258F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5ACCA47-1D4E-42AB-81DD-65317AB8B410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5ACCA47-1D4E-42AB-81DD-65317AB8B410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5ACCA47-1D4E-42AB-81DD-65317AB8B410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5ACCA47-1D4E-42AB-81DD-65317AB8B410}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

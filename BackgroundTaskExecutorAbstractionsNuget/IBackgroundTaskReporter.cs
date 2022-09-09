@@ -9,5 +9,6 @@ namespace Skyward.Threading.Abstractions
         IList<(string, DateTimeOffset, DateTimeOffset, TimeSpan)> GetHistoricalTasks();
         Dictionary<string, List<string>> GetQueuedTasks();
         IList<PeriodicTaskStatus> GetRegisteredPeriodicTasks();
+        CurrentConfiguration GetCurrentConfiguration();
     }
 }

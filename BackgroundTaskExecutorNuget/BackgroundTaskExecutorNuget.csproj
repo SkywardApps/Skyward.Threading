@@ -6,11 +6,13 @@
     <RootNamespace>Skyward.Threading.BackgroundTaskExecutor</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Skyward.Threading.BackgroundTaskExecutor</PackageId>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <Authors>Skyward App Company, LLC</Authors>
     <Company>Skyward App Company, LLC</Company>
     <PackageTags>threading background queue</PackageTags>
     <PackageReleaseNotes>Migration executor configuration to a config object</PackageReleaseNotes>
+    <Title>Skyward's Background Task and Periodic Executor</Title>
+    <Copyright>Skyward App Company, LLC</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

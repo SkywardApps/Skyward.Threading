@@ -14,5 +14,6 @@ namespace Skyward.Threading.Abstractions
         void SetPeriodicExecution(IPeriodicExecution task);
         void StartExecuteBackgroundTasks();
         void WaitBackgroundTasks();
+        CurrentConfiguration GetCurrentConfiguration();
     }
 }
