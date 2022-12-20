@@ -539,7 +539,7 @@ namespace Skyward.Threading
             //If the unique tasks should be enforced we will need to test if the task already exists in the queue
             if (queueIfUnique)
             {
-                //lock the collections to prevent changes during the check.
+                //Lock the collections to prevent changes during the check.
                 TaskListLock.Wait();
                 try
                 {
