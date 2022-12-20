@@ -5,7 +5,7 @@ stages:
 # Create internal nuget package
 package:
     stage: package
-    image: mcr.microsoft.com/dotnet/sdk:6.0
+    image: mcr.microsoft.com/dotnet/sdk:5.0
     cache:
         key: linux-build
         paths:
@@ -30,7 +30,7 @@ package:
   #Publish internal nuget package
 nugetInternal:
     stage: deployment
-    image: mcr.microsoft.com/dotnet/sdk:6.0
+    image: mcr.microsoft.com/dotnet/sdk:5.0
     cache:
       key: linux-build
       paths:
