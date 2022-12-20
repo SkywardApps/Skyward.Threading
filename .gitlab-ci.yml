@@ -24,13 +24,13 @@ package:
             - publish 
     script:
         # This assumes that Debug is the correct build to 
-        - for TestProject in *Tests/*Tests.csproj; do dotnet test -c ${TestConfiguration:-Debug} $TestProject; done
+        #- for TestProject in *Tests/*Tests.csproj; do dotnet test -c ${TestConfiguration:-Debug} $TestProject; done
         - for PackageProject in *Nuget/*Nuget.csproj; do dotnet pack -c ${PublishConfiguration:-Debug} --include-source --include-symbols  -p:SymbolPackageFormat=snupkg  --output ../publish $PackageProject; done
 
   #Publish internal nuget package
 nugetInternal:
     stage: deployment
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    image: mcr.microsoft.com/dotnet/sdk:6.0
     cache:
       key: linux-build
       paths:
