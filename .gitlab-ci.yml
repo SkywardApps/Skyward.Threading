@@ -30,7 +30,7 @@ package:
   #Publish internal nuget package
 nugetInternal:
     stage: deployment
-    image: microsoft/dotnet:2.2-sdk
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
     cache:
       key: linux-build
       paths:
