@@ -536,15 +536,29 @@ namespace Skyward.Threading
                 queueName = UnnamedQueue;
             }
 
-            //test if the memberName is in the list yet and if it is return
-            if (queueIfUnique &&
-                ((BackgroundQueues[queueName].PriorityTasks.Union(BackgroundQueues[queueName].BackgroundTasks)
-                    .Where(bgt => bgt.Key != UnnamedTask && bgt.Key == memberName).Count() != 0) ||
-                 CurrentlyExecutingTasks.Values.Where(t => t.Item1.Contains(memberName)).Count() != 0))
+            //If the unique tasks should be enforced we will need to test if the task already exists in the queue
+            if (queueIfUnique)
             {
-                return;
+                //Lock the collections to prevent changes during the check.
+                TaskListLock.Wait();
+                try
+                {
+                    //test if the memberName is in the list yet and if it is return
+                    if((BackgroundQueues[queueName].PriorityTasks.Union(BackgroundQueues[queueName].BackgroundTasks)
+                            .Where(bgt => bgt.Key != UnnamedTask && bgt.Key == memberName).Count() != 0) ||
+                         CurrentlyExecutingTasks.Values.Where(t => t.Item1.Contains(memberName)).Count() != 0)
+                    {
+                        _logger.LogInformation($"Preventing duplicate task from entering background queue. Queue {queueName}: Task {memberName}");
+                        return;
+                    }
+                }
+                finally
+                {
+                    TaskListLock.Release();
+                }
             }
 
+            //Put this task on to the Queue
             AddAction(item, queueName, priority, memberName);
         }
 
