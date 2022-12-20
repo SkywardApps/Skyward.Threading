@@ -45,8 +45,37 @@ app.MapGet("/tasks/spawn", (IBackgroundTaskExecutor executor) => {
     executor.AddAction(async () => {
         await Task.Delay(5000);
     }, false, "Test", false, "Sample Adhoc Spawned: " + Guid.NewGuid().ToString());
+    return "OK";
 });
+// Add an endpoint for testing purposes that will launch several background tasks for the same item.
+app.MapGet("/tasks/spawn/duplicates", (IBackgroundTaskExecutor executor) => {
 
+    var idString = Guid.NewGuid().ToString();
+    executor.AddAction(async () => {
+        await Task.Delay(5000);
+        Console.WriteLine("Task 1");
+    }, true, "Test", false, "Sample Adhoc Spawned: " + idString);
+    executor.AddAction(async () => {
+        await Task.Delay(5000);
+        Console.WriteLine("Task 2");
+    }, true, "Test", false, "Sample Adhoc Spawned: " + idString);
+    executor.AddAction(async () =>
+    {
+        await Task.Delay(5000);
+        Console.WriteLine("Task 3");
+    }, true, "Test", false, "Sample Adhoc Spawned: " + idString);
+    executor.AddAction(async () =>
+    {
+        await Task.Delay(5000);
+        Console.WriteLine("Task 4");
+    }, true, "Test", false, "Sample Adhoc Spawned: " + idString);
+    executor.AddAction(async () =>
+    {
+        await Task.Delay(5000);
+        Console.WriteLine("Task 5");
+    }, true, "Test", false, "Sample Adhoc Spawned: " + idString);
+    return "OK";
+});
 
 app.Run();
 
