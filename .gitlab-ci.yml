@@ -21,7 +21,7 @@ package:
     artifacts:
         when: always
         paths:
-            - publish/ 
+            - /builds/internal/nugets/publish/
     script:
         # This assumes that Debug is the correct build to 
         - for TestProject in *Tests/*Tests.csproj; do dotnet test -c ${TestConfiguration:-Debug} $TestProject; done
