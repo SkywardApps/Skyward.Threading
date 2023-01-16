@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>Skyward.Threading.BackgroundTaskExecutor.AspNet</PackageId>
     <Title>Skyward's AspNet Extentions for the Background Task Executor</Title>
-    <Version>1.2.0</Version>
+    <Version>1.4.1</Version>
     <Authors>Skyward App Company, LLC</Authors>
     <Company>Skyward App Company, LLC</Company>
     <Copyright>Skyward App Company, LLC</Copyright>

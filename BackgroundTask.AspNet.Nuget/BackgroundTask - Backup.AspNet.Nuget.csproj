@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Skyward.Threading.BackgroundTaskExecutor.AspNet</PackageId>
+    <Title>Skyward's AspNet Extentions for the Background Task Executor</Title>
+    <Version>1.2.0</Version>
+    <Authors>Skyward App Company, LLC</Authors>
+    <Company>Skyward App Company, LLC</Company>
+    <Copyright>Skyward App Company, LLC</Copyright>
+    <PackageTags>threading background queue</PackageTags>
+    <PackageReleaseNotes>Initial release with reporter endpoint</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="PageTemplate.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="PageTemplate.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BackgroundTaskExecutorAbstractionsNuget\BackgroundTaskExecutorAbstractionsNuget.csproj" />
+    <ProjectReference Include="..\BackgroundTaskExecutorNuget\BackgroundTaskExecutorNuget.csproj" />
+  </ItemGroup>
+
+</Project>
