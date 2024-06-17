@@ -523,7 +523,11 @@ namespace Skyward.Threading
         /// <summary>
         /// Add a task to the background queue if an existing task of the same name does not exist.
         /// This can be used to prevent duplication of tasks in the queue that would other wise be redundant.
-        /// </summary>
+        /// 
+        /// Note on memberName: A more robust solution is required to determine if the currently executing task list truely contains a given
+        /// member when the queueIfUnique flag is set. Currently member names should not be used with a leading ": ".
+        /// 
+        /// /// </summary>
         /// <param name="item">The function to add to the background queue</param>
         /// <param name="queueIfUnique">Should the task being added be unique in the queue.  Prevents multiples of an item being added to the list.</param>
         /// <param name="queueName">The name of the queue to assign this task to</param>
@@ -546,7 +550,7 @@ namespace Skyward.Threading
                     //test if the memberName is in the list yet and if it is return
                     if((BackgroundQueues[queueName].PriorityTasks.Union(BackgroundQueues[queueName].BackgroundTasks)
                             .Where(bgt => bgt.Key != UnnamedTask && bgt.Key == memberName).Count() != 0) ||
-                         CurrentlyExecutingTasks.Values.Where(t => t.Item1.Contains(memberName)).Count() != 0)
+                         CurrentlyExecutingTasks.Values.Where(t => t.Item1.EndsWith(": " + memberName)).Count() != 0)
                     {
                         _logger.LogInformation($"Preventing duplicate task from entering background queue. Queue {queueName}: Task {memberName}");
                         return;
