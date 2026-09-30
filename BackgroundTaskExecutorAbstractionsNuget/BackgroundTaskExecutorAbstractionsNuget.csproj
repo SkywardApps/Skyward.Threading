@@ -7,7 +7,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Skyward.Threading.BackgroundTaskExecutorAbstractions</PackageId>
     <Version>1.4.1</Version>
-    <Authors>Skyward App Company, LLC</Authors>
+    <Authors>Nicholas Elliott, Skyward App Company, LLC</Authors>
     <Company>Skyward App Company, LLC</Company>
   </PropertyGroup>
 

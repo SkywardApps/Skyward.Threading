@@ -1,3 +1,9 @@
+# Skyward.Threading
+
+In-process background task queues and periodic jobs for ASP.NET services. Everything runs locally in the process: a simpler way to defer work, not a replacement for Redis, RabbitMQ, or Kafka.
+
+Created by [Nicholas Elliott](https://nicholasmtelliott.com) at Skyward App Company. Maintained by [@NicholasMTElliott](https://github.com/NicholasMTElliott).
+
 # Getting Started
 
 Assuming you are using this in an ASP.NET 5+ project:
