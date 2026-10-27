@@ -1,5 +1,15 @@
 # Skyward.Threading
 
+> **Deprecated (2026).** This library is no longer maintained and the repository is archived. The ASP.NET reporter package targets .NET 5 and the sample targets .NET 6, both out of support; the core packages target .NET Standard 2.0.
+>
+> For new code, use what .NET now ships or the established schedulers:
+>
+> - In-process queues: a hosted [`BackgroundService`](https://learn.microsoft.com/aspnet/core/fundamentals/host/hosted-services) reading from a [`System.Threading.Channels`](https://learn.microsoft.com/dotnet/core/extensions/channels) channel.
+> - Periodic work: `BackgroundService` with [`PeriodicTimer`](https://learn.microsoft.com/dotnet/api/system.threading.periodictimer).
+> - Persistent, retried or distributed jobs: [Hangfire](https://www.hangfire.io/) or [Quartz.NET](https://www.quartz-scheduler.net/).
+>
+> The NuGet packages stay published so existing builds keep working.
+
 In-process background task queues and periodic jobs for ASP.NET services. Everything runs locally in the process: a simpler way to defer work, not a replacement for Redis, RabbitMQ, or Kafka.
 
 Created by [Nicholas Elliott](https://nicholasmtelliott.com) at Skyward App Company. Maintained by [@NicholasMTElliott](https://github.com/NicholasMTElliott).
@@ -204,11 +214,9 @@ public class ExampleController : ControllerBase
 
 See the [SampleUsage](./SampleUsage) project for examples of starting up a queue and creating some tasks.
 
-# Contributing
+# Issues and pull requests
 
-Please note we have a [code of conduct](./CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
-
-You can find our guide to contributing [here](./CONTRIBUTING.md).
+The repository is archived, so it no longer accepts issues or pull requests. Fork it if you need changes; the MIT license allows that.
 
 ## License
 
