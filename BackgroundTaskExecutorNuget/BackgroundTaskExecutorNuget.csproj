@@ -9,6 +9,7 @@
     <Version>1.4.1</Version>
     <Authors>Nicholas Elliott, Skyward App Company, LLC</Authors>
     <Company>Skyward App Company, LLC</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>threading background queue</PackageTags>
     <PackageReleaseNotes>Migration executor configuration to a config object</PackageReleaseNotes>
     <Title>Skyward's Background Task and Periodic Executor</Title>

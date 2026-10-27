@@ -9,6 +9,7 @@
     <Version>1.4.1</Version>
     <Authors>Nicholas Elliott, Skyward App Company, LLC</Authors>
     <Company>Skyward App Company, LLC</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Skyward App Company, LLC</Copyright>
     <PackageTags>threading background queue</PackageTags>
     <PackageReleaseNotes>Initial release with reporter endpoint</PackageReleaseNotes>

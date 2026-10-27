@@ -209,3 +209,7 @@ See the [SampleUsage](./SampleUsage) project for examples of starting up a queue
 Please note we have a [code of conduct](./CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
 
 You can find our guide to contributing [here](./CONTRIBUTING.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).
