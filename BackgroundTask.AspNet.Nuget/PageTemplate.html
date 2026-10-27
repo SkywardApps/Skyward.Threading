@@ -56,6 +56,16 @@
 
     <script>
 
+        // Task and queue names can include request data; never insert them as raw HTML.
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function formatTimestamp(datetimeStr) {
             const datetime = datetimeStr ? new Date(datetimeStr) : undefined;
             return datetime ? datetime.toLocaleTimeString() + ' ' + datetime.toLocaleDateString() : undefined;
@@ -63,14 +73,14 @@
 
         // Current: string[]
         function setCurrentData(json) {
-            document.getElementById('currentTitle').insertAdjacentHTML('beforeend', ' (Max ' + json.Config.ConcurrentGeneralBackgroundThreads + ' concurrent)');
+            document.getElementById('currentTitle').insertAdjacentHTML('beforeend', ' (Max ' + escapeHtml(json.Config.ConcurrentGeneralBackgroundThreads) + ' concurrent)');
             const currentTasksContainer = document.getElementById('currentTasks');
             if (json.Current.length == 0) {
                 currentTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
             }
             else {
                 for (const entry of json.Current) {
-                    currentTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entry + '</div>');
+                    currentTasksContainer.insertAdjacentHTML('beforeend', '<div>' + escapeHtml(entry) + '</div>');
                 }
             }
         }
@@ -80,14 +90,14 @@
         {
             const queuedTasksContainer = document.getElementById('queuedTasks');
             for (const queueName in json.Queued) {
-                queuedTasksContainer.insertAdjacentHTML('beforeend', '<h2>' + (queueName || '[Default]') + ' (Max ' + json.Config.Queues.find(q => q.Name === queueName).MaximumConcurrentExecutions + ' concurrent)</h2>');
+                queuedTasksContainer.insertAdjacentHTML('beforeend', '<h2>' + escapeHtml(queueName || '[Default]') + ' (Max ' + escapeHtml(json.Config.Queues.find(q => q.Name === queueName).MaximumConcurrentExecutions) + ' concurrent)</h2>');
                 const queue = json.Queued[queueName];
                 if (queue.length == 0) {
                     queuedTasksContainer.insertAdjacentHTML('beforeend', '<b>No entries</b>');
                 }
                 else {
                     for (const entry of queue) {
-                        queuedTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entry + '</div>');
+                        queuedTasksContainer.insertAdjacentHTML('beforeend', '<div>' + escapeHtml(entry) + '</div>');
                     }
                 }
             }
@@ -108,7 +118,7 @@
                         entryText += ' ( Last execution @ ' + last + ' )';
                     }
 
-                    periodicTasksContainer.insertAdjacentHTML('beforeend', '<div>' + entryText + '</div>');
+                    periodicTasksContainer.insertAdjacentHTML('beforeend', '<div>' + escapeHtml(entryText) + '</div>');
                 }
             }
         }
@@ -123,11 +133,11 @@
                 for (const entry of json.History) {
                     const lastRan = formatTimestamp(entry.Started);
                     const duration = entry.Duration;
-                    historicTasksContainer.insertAdjacentHTML('beforeend', '<div>' +
+                    historicTasksContainer.insertAdjacentHTML('beforeend', '<div>' + escapeHtml(
                         entry.Name + (lastRan
                             ? ' ran @ ' + lastRan + ' and took ' + duration
                             : ' <never> '
-                        ) + '</div>');
+                        )) + '</div>');
                 }
             }
         }
@@ -147,7 +157,7 @@
                 document.getElementById('loader').style.display = 'none';
             }
             catch (err) {
-                document.getElementById('loader').insertAdjacentHTML('beforeend', 'Error: ' + err.toString());
+                document.getElementById('loader').insertAdjacentHTML('beforeend', 'Error: ' + escapeHtml(err.toString()));
             }
         };
         loadData();
